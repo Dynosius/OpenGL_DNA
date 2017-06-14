@@ -2,32 +2,63 @@
 #include <GL/glut.h>
 #include <cmath>
 
+const GLfloat delta = 3;
+const GLfloat angleDelta = .33;
+const GLfloat angleMax = 36;
+const GLfloat amplitude = 5;
+
 void init()
 {
     glClearColor(0, 0, 0, .5);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 }
 
 
 void drawVeza()
 {
-    GLfloat x, y, xx,yy, z = 10, angle;
+    GLfloat x, y, xx, yy, xmed, ymed, z = 10, angle;
+    bool test = false;
 
     //glRotatef(45, 0, 1, 1);
-    glScalef(1.0, 1.0, 1);
     glLineWidth(5);
     glBegin(GL_LINES);
-        for(angle = 0; angle < 36; angle += .33)
+        for(angle = 0; angle < angleMax; angle += angleDelta)
         {
-            //prva spirala
-            glColor3f(1.0, 0.0, 0.0);
-            x = 5 * sin(angle);
-            y = 5 * cos(angle);
-            //druga kontra spirala
-            xx = -5 * sin(angle);
-            yy = -5 * cos(angle);
-            z -= 1.2;
+            //Simple nacin da se svaka druga oboja drugacije
+            if(!test)
+            {
+                glColor3f(.8, 0.0, 0.0);
+            }
+            else
+            {
+                glColor3f(.8, .8, 0.0);
+            }
+
+            x = amplitude * sin(angle);
+            y = amplitude * cos(angle);
+            xx = -amplitude * sin(angle);
+            yy = -amplitude * cos(angle);
+            //median?
+            xmed = (x + xx)/2.0f;
+            ymed = (y + yy)/2.0f;
+            z -= delta;
+
+            //crtaj linije
             glVertex3f(x, y, z);
-            glColor3f(0.0, 1.0, 0.0);
+            glVertex3f(xmed, ymed, z);
+            if(!test)
+            {
+                glColor3f(0.0, .8, 0.0);
+                test = true;
+            }
+            else
+            {
+                glColor3f(0.0, 0.0, .8);
+                test = false;
+            }
+
+            glVertex3f(xmed, ymed, z);
             glVertex3f(xx, yy, z);
         }
     glEnd();
@@ -37,28 +68,29 @@ void drawOutline(bool state)
 {
     GLfloat x, y, z = 10, angle;
     //glScalef(1.0, 1.0, 1);
-    glLineWidth(5);
-    glColor3f(0.0, 0.5, 0.5);
+    glLineWidth(10);
+    glColor3f(1, 1, 0.8);
     glBegin(GL_LINE_STRIP);
     if(state == true)
     {
-        for(angle = 0; angle < 36; angle += .33)
+        for(angle = 0; angle < angleMax; angle += angleDelta)
         {
             //prva spirala
-            x = 5 * sin(angle);
-            y = 5 * cos(angle);
-            z -= 1.2;
+            x = amplitude * sin(angle);
+            y = amplitude * cos(angle);
+            z -= delta;
             glVertex3f(x, y, z);
         }
     }
     else
     {
+//        glColor3f(.5, .5, 0.0);
     glBegin(GL_LINE_STRIP);
-        for (angle = 0; angle < 36; angle += .33)
+        for (angle = 0; angle < angleMax; angle += angleDelta)
         {
-            x = - 5 * sin(angle);
-            y = - 5 * cos(angle);
-            z -= 1.2;
+            x = - amplitude * sin(angle);
+            y = - amplitude * cos(angle);
+            z -= delta;
             glVertex3f(x, y, z);
         }
     }
@@ -95,11 +127,11 @@ void resize(int w, int h)
     glViewport (0, 0, (GLsizei)w, (GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60, (GLfloat)w/(GLfloat)h, 1, 50.0);
+    gluPerspective(60, (GLfloat)w/(GLfloat)h, .1, 100.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(10.0, 30.0, 0, 0.0, 0.0, 0, 0.0, 0.0, -1.0);
-    glRotatef(40, 0, 0, 1);
+    gluLookAt(10.0, 70.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
+    glRotatef(300, 0, 0, 1);
     glTranslatef(0.0, 0.0, 30.0);
 }
 
