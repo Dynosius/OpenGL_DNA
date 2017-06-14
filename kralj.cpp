@@ -2,10 +2,13 @@
 #include <GL/glut.h>
 #include <cmath>
 
-const GLfloat delta = 3;
+const GLfloat delta = 2;
 const GLfloat angleDelta = .33;
 const GLfloat angleMax = 36;
 const GLfloat amplitude = 5;
+GLfloat distanceY = 70;
+GLfloat distanceX = 10;
+int temp = 120;
 
 void init()
 {
@@ -13,7 +16,6 @@ void init()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 }
-
 
 void drawVeza()
 {
@@ -34,12 +36,13 @@ void drawVeza()
             {
                 glColor3f(.8, .8, 0.0);
             }
-
+            //Vertex na prvoj spirali
             x = amplitude * sin(angle);
             y = amplitude * cos(angle);
+            //Vertex na drugoj spirali
             xx = -amplitude * sin(angle);
             yy = -amplitude * cos(angle);
-            //median?
+            //median -> srednji vertex izmedu dvije spirale
             xmed = (x + xx)/2.0f;
             ymed = (y + yy)/2.0f;
             z -= delta;
@@ -68,7 +71,7 @@ void drawOutline(bool state)
 {
     GLfloat x, y, z = 10, angle;
     //glScalef(1.0, 1.0, 1);
-    glLineWidth(10);
+    glLineWidth(20);
     glColor3f(1, 1, 0.8);
     glBegin(GL_LINE_STRIP);
     if(state == true)
@@ -97,15 +100,39 @@ void drawOutline(bool state)
     glEnd();
 }
 
+void rotate(int /*state*/)
+{
+    glRotatef(2, 0, 0, 1);
+    glutPostRedisplay();
+    glutSwapBuffers();
+    glutTimerFunc(10, rotate, 0);
+}
+
+void zoom(int /*state*/)
+{
+    if(temp <= 0) return;
+    glScalef(1.005, 1.005, 1.005);
+    glutPostRedisplay();
+    glutSwapBuffers();
+    temp--;
+    glutTimerFunc(10, zoom, 0);
+}
+
 void scene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3f (1.0, 0.0, 1.0);
     //tu nacrtati
+    glPushMatrix();
     drawVeza();
     drawOutline(true);
     drawOutline(false);
-    glFlush();
+    glPopMatrix();
+//    glFlush();
+
+    //Credit: Matija Dizdar
+    glutPostRedisplay();
+    glutSwapBuffers();
+    // Imao sam mnogo problema s depthom prije ovoga, pa se zahvaljujem kolegi na savjetu
 }
 void keyboard(unsigned char c, int /*x*/, int /*y*/)
 {
@@ -119,26 +146,32 @@ void keyboard(unsigned char c, int /*x*/, int /*y*/)
     }
     else if(c == 'a')
     {
-
+        zoom(1);
+        rotate(1);
+        //fun fact, spammanjem buttona se ubrzava program jer se funkcija poziva opet
+        //moze se dodati neki bool koji provjerava jel vec upaljeno, ali ovo je zabavno
     }
 }
+
 void resize(int w, int h)
 {
     glViewport (0, 0, (GLsizei)w, (GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60, (GLfloat)w/(GLfloat)h, .1, 100.0);
+    gluPerspective(90, (GLfloat)w/(GLfloat)h, .1, 100.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(10.0, 70.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
-    glRotatef(300, 0, 0, 1);
-    glTranslatef(0.0, 0.0, 30.0);
+    gluLookAt(distanceX, distanceY, 0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
+//    glRotatef(40, 0, 0, 1);
+    glTranslatef(0.0, 0.0, 20.0);
 }
+
+
 
 int main(int argc, char**argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(600, 600);
     glutCreateWindow(argv[0]);
