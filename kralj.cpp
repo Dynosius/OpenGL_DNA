@@ -2,7 +2,7 @@
 #include <GL/glut.h>
 #include <cmath>
 
-const GLfloat delta = 2;
+const GLfloat delta = 3;
 const GLfloat angleDelta = .33;
 const GLfloat angleMax = 36;
 const GLfloat amplitude = 5;
@@ -10,11 +10,25 @@ GLfloat distanceY = 70;
 GLfloat distanceX = 10;
 int temp = 120;
 
+
 void init()
 {
-    glClearColor(0, 0, 0, .5);
+    GLfloat mat_shininess[] = { 40.0 };
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+    glClearColor(0, 0, 0, 0);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
+
+    glShadeModel (GL_SMOOTH);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 }
 
 void drawVeza()
@@ -48,7 +62,9 @@ void drawVeza()
             z -= delta;
 
             //crtaj linije
+            glNormal3f(x, y, z);
             glVertex3f(x, y, z);
+            glNormal3f(xx, yy, z);
             glVertex3f(xmed, ymed, z);
             if(!test)
             {
@@ -73,6 +89,7 @@ void drawOutline(bool state)
     //glScalef(1.0, 1.0, 1);
     glLineWidth(20);
     glColor3f(1, 1, 0.8);
+
     glBegin(GL_LINE_STRIP);
     if(state == true)
     {
@@ -82,6 +99,7 @@ void drawOutline(bool state)
             x = amplitude * sin(angle);
             y = amplitude * cos(angle);
             z -= delta;
+            glNormal3f(x, y, z);
             glVertex3f(x, y, z);
         }
     }
@@ -94,6 +112,7 @@ void drawOutline(bool state)
             x = - amplitude * sin(angle);
             y = - amplitude * cos(angle);
             z -= delta;
+            glNormal3f(x, y, z);
             glVertex3f(x, y, z);
         }
     }
@@ -163,7 +182,7 @@ void resize(int w, int h)
     glLoadIdentity();
     gluLookAt(distanceX, distanceY, 0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
 //    glRotatef(40, 0, 0, 1);
-    glTranslatef(0.0, 0.0, 20.0);
+    glTranslatef(0.0, 0.0, 50.0);
 }
 
 
