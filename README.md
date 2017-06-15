@@ -8,7 +8,7 @@ Prilažem svoj kod za DNA molekulu iz zadatka 2.
 Ovaj program je produkt otprilike 6 dana višesatnog istraživanja, trial&error postupaka,
 te malo pomoći i feedbacka od prijatelja i kolega.
 ***
-##Proces izrade
+## Proces izrade
 
 Sama izrada je započela proučavanjem same ideje toga što se treba napraviti, iz koje je proizašao
 zaključak da treba odrediti spirale. Uz cijelo popodne mozganja i isprobavanja, pomoć sam našao u
@@ -36,7 +36,7 @@ Za animacije sam si pomogao gledanjem u template kodove s vježbi, i korištenje
 
 Za kraj sam pokušao dodati lighting efekte, koje sam kopirao s Redbooka, jer nisam bio siguran kako točno rade, i uz malo refaktoriranja, dobio lighting na svojoj DNA molekuli. S obzirom da sam koristio primitive *GL_LINE_STRIP* i *GL_LINES*, nisam točno znao na kraju svog programa kako dodati normale na vektore, pa sam se goristio funkcijom glEnable(GL_NORMALIZE); da mi OpenGL automatski normalizira svaki vektor. 
 
-##Upute korištenja
+## Upute korištenja
 
 Program ima mappane keyeve "ESC", "Q" i "A".
 ESC i Q - izlaz iz programa.
@@ -45,7 +45,7 @@ A - pokretanje animacije.
 Nije potrebno pisati nikakve argumente. Ukoliko ih ima, samo mijenjate ime prozora.
 
 ***
-##Zaključak
+## Zaključak
 
 Sve u svemu, ovo je bilo vrlo poučno iskustvo koje me uvjerilo da želim dalje proučavati računalnu grafiku, sukladno s mojom željom da budem game developer. 
 
