@@ -7,7 +7,7 @@ Prilažem svoj kod za DNA molekulu iz zadatka 2.
 
 Ovaj program je produkt otprilike 6 dana višesatnog istraživanja, trial&error postupaka,  
 te malo pomoći i feedbacka od prijatelja i kolega.  
-***
+
 ## Proces izrade
 
 Sama izrada je započela proučavanjem same ideje toga što se treba napraviti, iz koje je proizašao  
@@ -30,7 +30,7 @@ te uz malo sreće dobio oblik kojim mogu demonstrirati tu molekulu u *"3d"* obli
 Vrijednosti unutar tih funkcija su izabrane trial&error metodom, da bi se dobio *najljepši* oblik  
 te molekule koji sam mogao izvesti.  
 
-***
+
 Za animacije sam si pomogao gledanjem u template kodove s vježbi, i korištenjem funkcije **glutTimerFunc()** uspio napraviti   animaciju. Koristio sam globalnu varijablu **temp** kao primitivan način ograničavanja animacije u *zoom()* metodi.   
 *rotate()* metoda ima mogućnost neograničene vrtnje, tako da ako vam je zabavno, slobodno pritišćite button za pokretanje   rotacije.
 
@@ -44,7 +44,7 @@ A - pokretanje animacije.
 
 Nije potrebno pisati nikakve argumente. Ukoliko ih ima, samo mijenjate ime prozora.  
 
-***
+
 ## Zaključak
 
 Sve u svemu, ovo je bilo vrlo poučno iskustvo koje me uvjerilo da želim dalje proučavati računalnu grafiku, sukladno s mojom željom da budem game developer.   
